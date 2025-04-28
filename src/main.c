@@ -23,7 +23,7 @@ int main ()
 	SearchAndSetResourceDir("resources");
 
 	// Load a texture from the resources directory
-	Texture wabbit = LoadTexture("wabbit_alpha.png");
+	Texture wabbit = LoadTexture("Ruhtra.png");
 	
 	// game loop
 	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
