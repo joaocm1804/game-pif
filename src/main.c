@@ -1,55 +1,51 @@
 
 #include "raylib.h"
-
-#include "resource_dir.h"	// utility header for SearchAndSetResourceDir
+#include "background.h"
+#include "resource_dir.h"
 
 int main ()
 {
-	// Tell the window to use vsync and work on high DPI displays
-	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+
+	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI); //Faz com que o jogo rode em alta definição e com Vsync
 
 	int screenHeight = 800;
 	int screenWidth = 1280;
 
-	// Create the window and OpenGL context
 	InitWindow(screenWidth, screenHeight, "Across The Bullets");
-
 	SetTargetFPS(60);	// Set the target frames per second
-	
 
-	
+
 	// Utility function from resource_dir.h to find the resources folder and set it as the current working directory so we can load from it
 	SearchAndSetResourceDir("assets");
 
-	// Load a texture from the resources directory
-	Texture ruhtra = LoadTexture("textures/Ruhtra.png");
+	InitBackground();
+	Texture ruhtra = LoadTexture("textures/Ruhtra.png"); //carrega a textura do player
 
+
+
+	//ajuste do boneco a proporção da tela
 	float porcentagem_ocupada = 0.1f;
-	float escalay = (screenHeight*porcentagem_ocupada)/ruhtra.height; //faz ficar proporcional ao tamanho da tela
+	float escalay = (screenHeight*porcentagem_ocupada)/ruhtra.height;
 	float escalax = (screenWidth*porcentagem_ocupada)/ruhtra.width;
 	float escala = (escalax < escalay) ? escalax : escalay;
 
 	// game loop
-	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
+	while (!WindowShouldClose())
 	{
-		// drawing
 		BeginDrawing();
 
-		// Setup the back buffer for drawing (clear color and depth buffers)
-		ClearBackground(BLACK);
+			ClearBackground(BLACK); //Limpa o fundo da tela
+			DrawBackground(); //desenha o fundo
 
-		// draw our texture to the screen
-		DrawTextureEx(ruhtra, (Vector2){400, 200}, 0.0f, escala, WHITE);
+			DrawTextureEx(ruhtra, (Vector2){400, 200}, 0.0f, escala, WHITE); //desenha o boneco na tela
 		
-		// end the frame and get ready for the next one  (display frame, poll input, etc...)
-		EndDrawing();
+
+		EndDrawing(); //termina o frame e se prepara para o próximo
 	}
 
-	// cleanup
-	// unload our texture so it can be cleaned up
-	UnloadTexture(ruhtra);
+	UnloadBackground(); //descarrega a textura do fundo
+	UnloadTexture(ruhtra);//limpa a textura do player
 
-	// destroy the window and cleanup the OpenGL context
 	CloseWindow();
 	return 0;
 }
